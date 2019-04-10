@@ -1,2 +1,2 @@
-# FirstTestRepository_AutoTest
+# FTR_AutoTest
 AutoTest
