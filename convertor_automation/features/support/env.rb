@@ -13,3 +13,22 @@ end
 
 Appium::Driver.new(caps,true)
 Appium.promote_appium_methods Object
+
+#method: select of main items from navbar by swipe
+def select_menu_item(value)
+  #checking for reach end of list( get_source is current screen id)
+  current_screen = get_source
+  previous_screen = ""
+
+  until (exists {find_element(id:"design_navigation_view").find_element(xpath:"//android.widget.CheckedTextView[@text='#{value}']")}) || (current_screen == previous_screen) do
+    Appium::TouchAction.new.swipe(start_x:0.5,start_y: 0.8,end_x:0.5,end_y:0.2,duration:500).perform
+    previous_screen =  current_screen
+    current_screen = get_source
+  end
+  #add more information in case of errors
+ if exists {find_element(id:"design_navigation_view").find_element(xpath:"//android.widget.CheckedTextView[@text='#{value}']")}
+    find_element(id:"design_navigation_view").find_element(xpath:"//android.widget.CheckedTextView[@text='#{value}']").click
+ else
+    fail("Element #{value} was not found in menu")
+ end
+end
